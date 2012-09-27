@@ -135,7 +135,7 @@ public class ItemBucket extends Item
                         return par1ItemStack;
                     }
 
-                    if (this.func_77875_a(par2World, var5, var7, var9, var13, var14, var15) && !par3EntityPlayer.capabilities.isCreativeMode)
+                    if (this.tryPlaceContainedLiquid(par2World, var5, var7, var9, var13, var14, var15) && !par3EntityPlayer.capabilities.isCreativeMode)
                     {
                         return new ItemStack(Item.bucketEmpty);
                     }
@@ -150,7 +150,10 @@ public class ItemBucket extends Item
         }
     }
 
-    public boolean func_77875_a(World par1World, double par2, double par4, double par6, int par8, int par9, int par10)
+    /**
+     * Attempts to place the liquid contained inside the bucket.
+     */
+    public boolean tryPlaceContainedLiquid(World par1World, double par2, double par4, double par6, int par8, int par9, int par10)
     {
         if (this.isFull <= 0)
         {

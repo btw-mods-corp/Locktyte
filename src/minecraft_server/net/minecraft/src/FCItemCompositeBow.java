@@ -105,7 +105,7 @@ public class FCItemCompositeBow extends ItemBow implements ITextureProvider
 
             if (var7)
             {
-                ((EntityArrow)var8).func_70243_d(true);
+                ((EntityArrow)var8).setIsCritical(true);
             }
 
             int var9 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, var1);
@@ -157,7 +157,7 @@ public class FCItemCompositeBow extends ItemBow implements ITextureProvider
 
             if (var6)
             {
-                var7.func_70243_d(true);
+                var7.setIsCritical(true);
             }
 
             int var8 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, var1);

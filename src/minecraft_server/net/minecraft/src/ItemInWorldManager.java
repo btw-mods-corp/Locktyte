@@ -258,7 +258,7 @@ public class ItemInWorldManager
 
                 if (var7 != null)
                 {
-                    var7.func_77941_a(this.theWorld, var4, par1, par2, par3, this.thisPlayerMP);
+                    var7.onBlockDestroyed(this.theWorld, var4, par1, par2, par3, this.thisPlayerMP);
 
                     if (var7.stackSize == 0)
                     {

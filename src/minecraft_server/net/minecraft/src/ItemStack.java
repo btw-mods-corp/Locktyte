@@ -286,7 +286,7 @@ public final class ItemStack
         }
     }
 
-    public void func_77941_a(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
+    public void onBlockDestroyed(World par1World, int par2, int par3, int par4, int par5, EntityPlayer par6EntityPlayer)
     {
         boolean var7 = Item.itemsList[this.itemID].onBlockDestroyed(this, par1World, par2, par3, par4, par5, par6EntityPlayer);
 
