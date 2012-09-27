@@ -2,9 +2,14 @@ package net.minecraft.src;
 
 import java.util.Iterator;
 import java.util.Random;
+import java.util.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BlockChest extends BlockContainer
 {
+    public static Logger logger = Logger.getLogger("Minecraft");
+
     private Random random = new Random();
 
     protected BlockChest(int par1)
@@ -83,6 +88,7 @@ public class BlockChest extends BlockContainer
         int var9 = par1World.getBlockId(par2 + 1, par3, par4);
         byte var10 = 0;
         int var11 = MathHelper.floor_double((double)(par5EntityLiving.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        logger.info("Chest placed in world - " + par1World.worldInfo.getWorldName() +" ("+par1World.worldInfo.getDimension()+") at [x:" + par2 + ", y:" + par3 + ", z:" + par4 + "] By <" + par5EntityLiving.getEntityName() + ">");
 
         if (var11 == 0)
         {
@@ -312,7 +318,8 @@ public class BlockChest extends BlockContainer
             var6.updateContainingBlockInfo();
         }
     }
-
+    
+    // TODO: chest gets destroyed - dropping items?
     /**
      * ejects contained items into the world, and notifies neighbours of an update, as appropriate
      */
@@ -415,6 +422,15 @@ public class BlockChest extends BlockContainer
             if (par1World.getBlockId(par2, par3, par4 + 1) == this.blockID)
             {
                 var10 = new InventoryLargeChest("container.chestDouble", (IInventory)var10, (TileEntityChest)par1World.getBlockTileEntity(par2, par3, par4 + 1));
+            }
+            
+            logger.info("<" + par5EntityPlayer.username + "> in world - "+par1World.worldInfo.getWorldName()+" ("+par5EntityPlayer.dimension+") at [x:"+par5EntityPlayer.posX+", y:"+par5EntityPlayer.posY+", z:"+par5EntityPlayer.posZ+"] Opened the chest in world " + par1World.worldInfo.getWorldName() + " at [x:" + par2 + ", y:" + par3 + ", z:" + par4 + "]");
+        	par5EntityPlayer.hasStealableInventoryOpen = true;
+            if (var10 instanceof InventoryLargeChest) {
+            	par5EntityPlayer.hasLargeChestOpen = true;
+            }
+            else {
+            	par5EntityPlayer.hasChestOpen = true;
             }
 
             if (par1World.isRemote)

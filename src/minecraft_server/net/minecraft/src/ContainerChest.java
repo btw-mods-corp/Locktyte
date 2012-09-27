@@ -1,7 +1,12 @@
 package net.minecraft.src;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 public class ContainerChest extends Container
 {
+    public static Logger logger = Logger.getLogger("Minecraft");
+
     private IInventory lowerChestInventory;
     private int numRows;
 
@@ -86,5 +91,9 @@ public class ContainerChest extends Container
     {
         super.onCraftGuiClosed(par1EntityPlayer);
         this.lowerChestInventory.closeChest();
+        logger.info("Chest Closed by <" + par1EntityPlayer.username+"> ("+par1EntityPlayer.dimension+") [x:"+par1EntityPlayer.posX+", y:"+par1EntityPlayer.posY+", z:"+par1EntityPlayer.posZ+"]");
+        par1EntityPlayer.hasStealableInventoryOpen = false;
+        par1EntityPlayer.hasChestOpen = false;
+        par1EntityPlayer.hasLargeChestOpen = false;
     }
 }

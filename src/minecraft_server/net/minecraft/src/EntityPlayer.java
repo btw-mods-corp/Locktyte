@@ -5,6 +5,10 @@ import java.util.List;
 
 public abstract class EntityPlayer extends EntityLiving implements ICommandSender
 {
+    public boolean hasChestOpen;
+    public boolean hasLargeChestOpen;
+    public boolean hasStealableInventoryOpen;
+
     /** Inventory of the player */
     public InventoryPlayer inventory = new InventoryPlayer(this);
     private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();

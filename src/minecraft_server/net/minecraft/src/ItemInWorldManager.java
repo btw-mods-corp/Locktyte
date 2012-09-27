@@ -1,7 +1,12 @@
 package net.minecraft.src;
 
+import java.util.logging.Logger;
+import java.util.logging.Level;
+
 public class ItemInWorldManager
 {
+	public static Logger logger = Logger.getLogger("Minecraft");
+	
     /** The world object that this object is connected to. */
     public World theWorld;
 
@@ -216,6 +221,11 @@ public class ItemInWorldManager
         Block var4 = Block.blocksList[this.theWorld.getBlockId(par1, par2, par3)];
         int var5 = this.theWorld.getBlockMetadata(par1, par2, par3);
 
+        if (var4.blockID == 54)
+        {
+        	logger.info("<"+this.thisPlayerMP.username+"> has DESTROYED the chest at [x:"+par1+", y:"+par2+", z:"+par3+"]");
+        }
+        
         if (var4 != null)
         {
             var4.onBlockHarvested(this.theWorld, par1, par2, par3, var5, this.thisPlayerMP);
