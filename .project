@@ -16,9 +16,39 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>changed</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
 			<name>jars</name>
 			<type>2</type>
 			<locationURI>MCP_LOC/jars</locationURI>
+		</link>
+		<link>
+			<name>changed/BlockChest.java</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/minecraft_server/net/minecraft/src/BlockChest.java</locationURI>
+		</link>
+		<link>
+			<name>changed/Container.java</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/minecraft_server/net/minecraft/src/Container.java</locationURI>
+		</link>
+		<link>
+			<name>changed/ContainerChest.java</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/minecraft_server/net/minecraft/src/ContainerChest.java</locationURI>
+		</link>
+		<link>
+			<name>changed/EntityPlayer.java</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/minecraft_server/net/minecraft/src/EntityPlayer.java</locationURI>
+		</link>
+		<link>
+			<name>changed/ItemInWorldManager.java</name>
+			<type>1</type>
+			<locationURI>PROJECT_LOC/src/minecraft_server/net/minecraft/src/ItemInWorldManager.java</locationURI>
 		</link>
 	</linkedResources>
 	<filteredResources>
