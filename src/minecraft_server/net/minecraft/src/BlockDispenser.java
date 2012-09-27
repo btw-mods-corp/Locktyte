@@ -358,7 +358,7 @@ public class BlockDispenser extends BlockContainer
         {
             ItemBucket var21 = (ItemBucket)par2ItemStack.getItem();
 
-            if (var21.func_77875_a(par1World, (double)par4, (double)par5, (double)par6, par4 + par7, par5, par6 + par8))
+            if (var21.tryPlaceContainedLiquid(par1World, (double)par4, (double)par5, (double)par6, par4 + par7, par5, par6 + par8))
             {
                 par2ItemStack.itemID = Item.bucketEmpty.shiftedIndex;
                 par2ItemStack.stackSize = 1;

@@ -48,7 +48,7 @@ public class FCItemBow extends ItemBow
 
             if (var8 == 1.0F)
             {
-                ((EntityArrow)var9).func_70243_d(true);
+                ((EntityArrow)var9).setIsCritical(true);
             }
 
             int var10 = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, var1);

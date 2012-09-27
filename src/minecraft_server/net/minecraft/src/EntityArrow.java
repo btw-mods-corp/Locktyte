@@ -237,7 +237,7 @@ public class EntityArrow extends Entity
                     var22 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
                     int var21 = MathHelper.ceiling_double_int((double)var22 * this.damage);
 
-                    if (this.func_70241_g())
+                    if (this.getIsCritical())
                     {
                         var21 += this.rand.nextInt(var21 / 2 + 2);
                     }
@@ -309,11 +309,11 @@ public class EntityArrow extends Entity
                     this.worldObj.playSoundAtEntity(this, "random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
                     this.inGround = true;
                     this.arrowShake = 7;
-                    this.func_70243_d(false);
+                    this.setIsCritical(false);
                 }
             }
 
-            if (this.func_70241_g())
+            if (this.getIsCritical())
             {
                 for (int var20 = 0; var20 < 4; ++var20)
                 {
@@ -478,7 +478,10 @@ public class EntityArrow extends Entity
         return false;
     }
 
-    public void func_70243_d(boolean par1)
+    /**
+     * Whether the arrow has a stream of critical hit particles flying behind it.
+     */
+    public void setIsCritical(boolean par1)
     {
         byte var2 = this.dataWatcher.getWatchableObjectByte(16);
 
@@ -492,7 +495,10 @@ public class EntityArrow extends Entity
         }
     }
 
-    public boolean func_70241_g()
+    /**
+     * Whether the arrow has a stream of critical hit particles flying behind it.
+     */
+    public boolean getIsCritical()
     {
         byte var1 = this.dataWatcher.getWatchableObjectByte(16);
         return (var1 & 1) != 0;

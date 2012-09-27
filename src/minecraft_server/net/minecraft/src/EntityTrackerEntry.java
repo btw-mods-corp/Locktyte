@@ -37,7 +37,7 @@ public class EntityTrackerEntry
     private double lastTrackedEntityPosY;
     private double lastTrackedEntityPosZ;
     private boolean firstUpdateDone = false;
-    private boolean shouldSendMotionUpdates;
+    private boolean sendVelocityUpdates;
 
     /**
      * every 400 ticks a  full teleport packet is sent, rather than just a "move me +x" command, so that position
@@ -53,7 +53,7 @@ public class EntityTrackerEntry
         this.trackedEntity = par1Entity;
         this.trackingDistanceThreshold = par2;
         this.updateFrequency = par3;
-        this.shouldSendMotionUpdates = par4;
+        this.sendVelocityUpdates = par4;
         this.encodedPosX = MathHelper.floor_double(par1Entity.posX * 32.0D);
         this.encodedPosY = MathHelper.floor_double(par1Entity.posY * 32.0D);
         this.encodedPosZ = MathHelper.floor_double(par1Entity.posZ * 32.0D);
@@ -131,7 +131,7 @@ public class EntityTrackerEntry
                     var10 = new Packet34EntityTeleport(this.trackedEntity.entityId, var2, var3, var4, (byte)var5, (byte)var6);
                 }
 
-                if (this.shouldSendMotionUpdates)
+                if (this.sendVelocityUpdates)
                 {
                     double var13 = this.trackedEntity.motionX - this.lastTrackedEntityMotionX;
                     double var15 = this.trackedEntity.motionY - this.lastTrackedEntityMotionY;
@@ -250,7 +250,7 @@ public class EntityTrackerEntry
                     this.lastTrackedEntityMotionY = this.trackedEntity.motionY;
                     this.lastTrackedEntityMotionZ = this.trackedEntity.motionZ;
 
-                    if (this.shouldSendMotionUpdates && !(var6 instanceof Packet24MobSpawn))
+                    if (this.sendVelocityUpdates && !(var6 instanceof Packet24MobSpawn))
                     {
                         par1EntityPlayerMP.playerNetServerHandler.sendPacket(new Packet28EntityVelocity(this.trackedEntity.entityId, this.trackedEntity.motionX, this.trackedEntity.motionY, this.trackedEntity.motionZ));
                     }
