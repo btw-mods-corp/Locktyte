@@ -1,13 +1,8 @@
 package net.minecraft.src;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
 public class ItemInWorldManager
 {
-	public static Logger logger = Logger.getLogger("Minecraft");
-	
-    /** The world object that this object is connected to. */
+	/** The world object that this object is connected to. */
     public World theWorld;
 
     /** The EntityPlayerMP object that this object is connected to. */
@@ -220,11 +215,13 @@ public class ItemInWorldManager
     {
         Block var4 = Block.blocksList[this.theWorld.getBlockId(par1, par2, par3)];
         int var5 = this.theWorld.getBlockMetadata(par1, par2, par3);
-
-        if (var4.blockID == 54)
-        {
-        	logger.info("<"+this.thisPlayerMP.username+"> has DESTROYED the chest at [x:"+par1+", y:"+par2+", z:"+par3+"]");
-        }
+        
+        // ContainerWatcher-->
+        // TODO: Check more than just one block ID
+        //if (var4.blockID == 54) {
+        //	this.thisPlayerMP.watcher.containerDestroyed(par1, par2, par3);
+        //}
+        // <--ContainerWatcher
         
         if (var4 != null)
         {
@@ -328,6 +325,10 @@ public class ItemInWorldManager
 
         if (var11 > 0 && Block.blocksList[var11].onBlockActivated(par2World, par4, par5, par6, par1EntityPlayer, par7, par8, par9, par10))
         {
+        	// ContainerWatcher-->
+        	par1EntityPlayer.watcher.activatedBlock(par2World, par3ItemStack, Block.blocksList[var11], par4, par5, par6);
+        	// <--ContainerWatcher
+        	
             return true;
         }
         else if (par3ItemStack == null)
