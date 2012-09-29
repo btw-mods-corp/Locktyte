@@ -5,13 +5,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+
+import net.minecraft.server.MinecraftServer;
 
 public abstract class Container
 {
-    public static Logger logger = Logger.getLogger("Minecraft");
-
     /** the list of all items(stacks) for the corresponding slot */
     public List inventoryItemStacks = new ArrayList();
 
@@ -139,6 +137,8 @@ public abstract class Container
     {
         ItemStack var5 = null;
 
+    	//MinecraftServer.logger.info("slotClick #" + slotId + " in " + this.getClass().getName() +  " using " + mouseButton + (isShift ? " w/shift" : "") + " by " + par4EntityPlayer.username);
+
         if (par2 > 1)
         {
             return null;
@@ -153,24 +153,18 @@ public abstract class Container
                 {
                     if (var6.getItemStack() != null && par1 == -999)
                     {
+                    	// ContainerWatcher-->
+                    	par4EntityPlayer.watcher.itemDropped(var6.getItemStack(), par2 == 0 ? var6.getItemStack().stackSize : 1);
+                    	// <--ContainerWatcher
+                    	
                         if (par2 == 0)
                         {
-                        	if (par4EntityPlayer.hasStealableInventoryOpen == true);
-                    		{
-                    	logger.info("<"+par4EntityPlayer.username+"> has dropped "+var6.getItemStack().getItemName()+" ("+var6.getItemStack().itemID+") x"+var6.getItemStack().stackSize);
-                    		}
-                        	
                             par4EntityPlayer.dropPlayerItem(var6.getItemStack());
                             var6.setItemStack((ItemStack)null);
                         }
 
                         if (par2 == 1)
                         {
-                        	if (par4EntityPlayer.hasStealableInventoryOpen == true);
-                    		{
-                    	logger.info("<"+par4EntityPlayer.username+"> has dropped one "+var6.getItemStack().getItemName()+" ("+var6.getItemStack().itemID+")");
-                    		}
-                        	
                             par4EntityPlayer.dropPlayerItem(var6.getItemStack().splitStack(1));
 
                             if (var6.getItemStack().stackSize == 0)
@@ -186,32 +180,18 @@ public abstract class Container
 
                     if (var7 != null)
                     {
-                        if (par4EntityPlayer.hasStealableInventoryOpen== true)
-                        {
-                        	if (par4EntityPlayer.hasChestOpen == true)
-                        	{
-                        		if (par1 <= 26 && par1 >= 0)
-                        		{
-                        			logger.info("<"+par4EntityPlayer.username+"> Has just WITHDREW "+ var7.getItemName()+" ("+var7.itemID+") x"+ var7.stackSize +" from a small chest.");
-                                }
-                        		else if (par1 <= 62 && par1 >= 27)
-                        		{
-                        			logger.info("<"+par4EntityPlayer.username+"> Has just DEPOSITED " + var7.getItemName()+" ("+var7.itemID+") x"+ var7.stackSize + " into a small chest.");
-                        		}
-                        	}
-                        	
-                        	if (par4EntityPlayer.hasLargeChestOpen == true)
-                        	{
-                        		if (par1 <= 53 && par1 >= 0)
-                        		{
-                        			logger.info("<"+par4EntityPlayer.username+"> Has just WITHDREW " + var7.getItemName()+" ("+var7.itemID+") x"+ var7.stackSize + " from a large chest.");
-                        		}
-                        		else if (par1 <= 89 && par1 >= 0)
-                        		{
-                        			logger.info("<"+par4EntityPlayer.username+"> Has just DEPOSITED " + var7.getItemName()+" ("+var7.itemID+") x"+ var7.stackSize + " into a large chest.");
-                        		}
-                        	}	
-                         }
+                    	// ContainerWatcher-->
+                    	Slot clickedSlot = (Slot)this.inventorySlots.get(par1);
+                    	ItemStack remainingItemStack = clickedSlot.getStack();
+                    	int quantity = remainingItemStack == null ? var7.stackSize : var7.stackSize - remainingItemStack.stackSize;
+                    	
+                    	if (clickedSlot.inventory instanceof InventoryPlayer) {
+                        	par4EntityPlayer.watcher.itemDeposited(this, par1, var7, quantity, par3);
+                        }
+                        else {
+                        	par4EntityPlayer.watcher.itemWithdrawn(this, par1, var7, quantity, par3);
+                        }
+                        // <--ContainerWatcher
 
                         int var8 = var7.itemID;
                         var5 = var7.copy();
@@ -232,9 +212,6 @@ public abstract class Container
 
                     Slot var12 = (Slot)this.inventorySlots.get(par1);
 
-                    //so long as you click on an inventory slot, var12 is not null
-                    //var 13 deals with the item in the slot youre clicking on
-                    //var 14 deals with the item your mouse is holding when you click on a slot.
                     if (var12 != null)
                     {
                         ItemStack var13 = var12.getStack();
@@ -262,36 +239,18 @@ public abstract class Container
                                     var10 = var12.getSlotStackLimit();
                                 }
                                 
+                                // ContainerWatcher-->
+                                if (var12.inventory instanceof InventoryPlayer) {
+                                	par4EntityPlayer.watcher.itemWithdrawn(this, par1, var14, var10);
+                                }
+                                else {
+                                	par4EntityPlayer.watcher.itemDeposited(this, par1, var14, var10);
+                                }
+                                // <--ContainerWatcher
+                                
                                 //places var10 (quantity) of var14 (item) in var12 (slot)
                                 var12.putStack(var14.splitStack(var10));
-                                
-                                if (par4EntityPlayer.hasStealableInventoryOpen== true)
-                                {
-                                	if (par4EntityPlayer.hasChestOpen == true)
-                                	{
-                                		if (par1 <= 26 && par1 >= 0)
-                                		{
-                                			logger.info("<"+par4EntityPlayer.username+"> has just PLACED "+ var14.getItemName()+" ("+var14.itemID+") x"+ var10 +" into a small chest.");
-                                        }
-                                		else if (par1 <= 62 && par1 >= 27)
-                                		{
-                                			logger.info("<"+par4EntityPlayer.username+"> Has just PLACED " + var14.getItemName()+" ("+var14.itemID+") x"+ var10 + " into their pocket.");
-                                		}
-                                	}
-                                	
-                                	if (par4EntityPlayer.hasLargeChestOpen == true)
-                                	{
-                                		if (par1 <= 53 && par1 >= 0)
-                                		{
-                                			logger.info("<"+par4EntityPlayer.username+"> Has just PLACED " + var14.getItemName()+" ("+var14.itemID+") x"+ var10 + " into a large chest.");
-                                		}
-                                		else if (par1 <= 89 && par1 >= 0)
-                                		{
-                                			logger.info("<"+par4EntityPlayer.username+"> Has just PLACED " + var14.getItemName()+" ("+var14.itemID+") x"+ var10 + " into a their pocket.");
-                                		}
-                                	}	
-                                 }
-                                
+                            	
                                 //last item/whole stack is placed, sets hand to empty
                                 if (var14.stackSize == 0)
                                 {
@@ -309,33 +268,10 @@ public abstract class Container
                             ItemStack var11 = var12.decrStackSize(var10);
                             // place the items into the player's hand
                             var6.setItemStack(var11);
-
-                            if (par4EntityPlayer.hasStealableInventoryOpen== true)
-                            {
-                            	if (par4EntityPlayer.hasChestOpen == true)
-                            	{
-                            		if (par1 <= 26 && par1 >= 0)
-                            		{
-                            			logger.info("<"+par4EntityPlayer.username+"> has just PICKED UP "+ var11.getItemName()+" ("+var11.itemID+") x"+ var10 +" from a small chest.");
-                                    }
-                            		else if (par1 <= 62 && par1 >= 27)
-                            		{
-                            			logger.info("<"+par4EntityPlayer.username+"> Has just PICKED UP " + var11.getItemName()+" ("+var11.itemID+") x"+ var10 + " from their pocket.");
-                            		}
-                            	}
-                            	
-                            	if (par4EntityPlayer.hasLargeChestOpen == true)
-                            	{
-                            		if (par1 <= 53 && par1 >= 0)
-                            		{
-                            			logger.info("<"+par4EntityPlayer.username+"> Has just PICKED UP " + var11.getItemName()+" ("+var11.itemID+") x"+ var10 + " from a large chest.");
-                            		}
-                            		else if (par1 <= 89 && par1 >= 0)
-                            		{
-                            			logger.info("<"+par4EntityPlayer.username+"> Has just PICKED UP " + var11.getItemName()+" ("+var11.itemID+") x"+ var10 + " from a their pocket.");
-                            		}
-                            	}	
-                             }
+                            
+                            // ContainerWatcher-->
+                            par4EntityPlayer.watcher.itemWithdrawn(this, par1, var13, var10);
+                            // <--ContainerWatcher
                             
                             //tries to pick something up from an empty slot
                             if (var13.stackSize == 0)
@@ -376,7 +312,12 @@ public abstract class Container
 
                                 var13.stackSize += var10;
                                 
-                                if (par4EntityPlayer.hasStealableInventoryOpen== true)
+                                // ContainerWatcher-->
+                            	// TODO: par4EntityPlayer.containerWatcher.itemWithdrawn(clickedItemStack, slotId, quantity);
+                            	// <--ContainerWatcher
+                            	
+                            	// TODO: why comparing par1 (slotId) values?
+                                /*if (par4EntityPlayer.hasStealableInventoryOpen== true)
                                 {
                                 	if (par4EntityPlayer.hasChestOpen == true)
                                 	{
@@ -401,13 +342,14 @@ public abstract class Container
                                 			logger.info("<"+par4EntityPlayer.username+"> Has just PICKED UP " + var13.getItemName()+" ("+var13.itemID+") x"+ var10 + " into a their pocket.");
                                 		}
                                 	}	
-                                 }
+                                 }*/
                                 
                             }
                             //if theyre not the same and if the size of items in hand can fit in the slot.
                             else if (var14.stackSize <= var12.getSlotStackLimit())
                             {
-                            	 if (par4EntityPlayer.hasStealableInventoryOpen== true)
+                            	 // TODO: why comparing par1 (slotId) values?
+                                 /*if (par4EntityPlayer.hasStealableInventoryOpen== true)
                                  {
                                  	if (par4EntityPlayer.hasChestOpen == true)
                                  	{
@@ -432,7 +374,7 @@ public abstract class Container
                                  			logger.info("<"+par4EntityPlayer.username+"> Has just SWAPPED "+ var14.getItemName()+" ("+var14.itemID+") x"+ var14.stackSize +" from their pocket for "+ var13.getItemName()+" ("+var13.itemID+") x"+ var13.stackSize +" from a small chest");
                                  		}
                                  	}	
-                                  }
+                                  }*/
                                 var12.putStack(var14);
                                 var6.setItemStack(var13);
                             }
@@ -475,6 +417,10 @@ public abstract class Container
      */
     public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
     {
+    	// ContainerWatcher-->
+        par1EntityPlayer.watcher.containerClosed(this);
+        // <--ContainerWatcher
+    	
         InventoryPlayer var2 = par1EntityPlayer.inventory;
 
         if (var2.getItemStack() != null)
