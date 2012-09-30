@@ -156,9 +156,9 @@ public abstract class Container
                 {
                     if (var6.getItemStack() != null && par1 == -999)
                     {
-                    	// ContainerWatcher-->
+                    	// BTWMods-->
                     	par4EntityPlayer.watcher.itemDropped(var6.getItemStack(), par2 == 0 ? var6.getItemStack().stackSize : 1);
-                    	// <--ContainerWatcher
+                    	// <--BTWMods
                     	
                         if (par2 == 0)
                         {
@@ -183,7 +183,7 @@ public abstract class Container
 
                     if (var7 != null)
                     {
-                    	// ContainerWatcher-->
+                    	// BTWMods-->
                     	Slot clickedSlot = (Slot)this.inventorySlots.get(par1);
                     	ItemStack remainingItemStack = clickedSlot.getStack();
                     	int quantity = remainingItemStack == null ? var7.stackSize : var7.stackSize - remainingItemStack.stackSize;
@@ -194,7 +194,7 @@ public abstract class Container
                         else {
                         	par4EntityPlayer.watcher.itemWithdrawn(this, par1, var7, quantity, par3);
                         }
-                        // <--ContainerWatcher
+                        // <--BTWMods
 
                         int var8 = var7.itemID;
                         var5 = var7.copy();
@@ -242,14 +242,14 @@ public abstract class Container
                                     var10 = var12.getSlotStackLimit();
                                 }
 
-                                // ContainerWatcher-->
+                                // BTWMods-->
                                 if (var12.inventory instanceof InventoryPlayer) {
                                 	par4EntityPlayer.watcher.itemWithdrawn(this, par1, var14, var10);
                                 }
                                 else {
                                 	par4EntityPlayer.watcher.itemDeposited(this, par1, var14, var10);
                                 }
-                                // <--ContainerWatcher
+                                // <--BTWMods
                                 
                                 // Store the specified quantity of items in the slot.
                                 var12.putStack(var14.splitStack(var10));
@@ -271,9 +271,9 @@ public abstract class Container
                             // Place the items into the players hand.
                             var6.setItemStack(var11);
 
-                            // ContainerWatcher-->
+                            // BTWMods-->
                             par4EntityPlayer.watcher.itemWithdrawn(this, par1, var13, var10);
-                            // <--ContainerWatcher
+                            // <--BTWMods
                             
                             // Reset the slot if it is empty?
                             if (var13.stackSize == 0)
@@ -314,9 +314,9 @@ public abstract class Container
                                 // Add the quantity of items to the slot's stack.
                                 var13.stackSize += var10;
                                 
-                                // ContainerWatcher-->
+                                // BTWMods-->
                             	// TODO: par4EntityPlayer.containerWatcher.itemWithdrawn(clickedItemStack, slotId, quantity);
-                            	// <--ContainerWatcher
+                            	// <--BTWMods
                             	
                             	// TODO: why comparing par1 (slotId) values?
                                 /*if (par4EntityPlayer.hasStealableInventoryOpen== true)
@@ -419,9 +419,9 @@ public abstract class Container
      */
     public void onCraftGuiClosed(EntityPlayer par1EntityPlayer)
     {
-    	// ContainerWatcher-->
+    	// BTWMods-->
         par1EntityPlayer.watcher.containerClosed(this);
-        // <--ContainerWatcher
+        // <--BTWMods
     	
         InventoryPlayer var2 = par1EntityPlayer.inventory;
 
