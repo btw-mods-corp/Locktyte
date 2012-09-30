@@ -5,6 +5,10 @@ import java.util.List;
 
 public abstract class EntityPlayer extends EntityLiving implements ICommandSender
 {
+    // ContainerWatcher-->
+    public btwmods.playerwatcher.PlayerWatcher watcher;
+    // <--ContainerWatcher
+
     /** Inventory of the player */
     public InventoryPlayer inventory = new InventoryPlayer(this);
     private InventoryEnderChest theInventoryEnderChest = new InventoryEnderChest();
@@ -115,6 +119,10 @@ public abstract class EntityPlayer extends EntityLiving implements ICommandSende
         this.field_70741_aB = 180.0F;
         this.fireResistance = 20;
         this.texture = "/mob/char.png";
+        
+        // ContainerWatcher-->
+        watcher = new btwmods.playerwatcher.PlayerWatcher(this);
+        // <--ContainerWatcher
     }
 
     public int getMaxHealth()

@@ -830,10 +830,13 @@ public class NetServerHandler extends NetHandler
 
     public void handleWindowClick(Packet102WindowClick par1Packet102WindowClick)
     {
+    	// TODO: Remove
+    	// MinecraftServer.logger.info("handleWindowClick user: " + this.playerEntity.username + " windowId: " + par1Packet102WindowClick.window_Id + " slotID: " + par1Packet102WindowClick.inventorySlot);
         if (this.playerEntity.craftingInventory.windowId == par1Packet102WindowClick.window_Id && this.playerEntity.craftingInventory.getCanCraft(this.playerEntity))
         {
             ItemStack var2 = this.playerEntity.craftingInventory.slotClick(par1Packet102WindowClick.inventorySlot, par1Packet102WindowClick.mouseClick, par1Packet102WindowClick.holdingShift, this.playerEntity);
-
+            // TODO: Remove
+            //MinecraftServer.logger.info("itemStack " + (var2 == null ? "null" : "ID: " + var2.itemID + " size: " + var2.stackSize));
             if (ItemStack.areItemStacksEqual(par1Packet102WindowClick.itemStack, var2))
             {
                 this.playerEntity.playerNetServerHandler.sendPacket(new Packet106Transaction(par1Packet102WindowClick.window_Id, par1Packet102WindowClick.action, true));
