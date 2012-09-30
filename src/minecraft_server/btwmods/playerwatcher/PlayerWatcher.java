@@ -21,9 +21,9 @@ public class PlayerWatcher extends BTWMod {
 	
 	public static Properties GetDefaultProperties() {
 		Properties defaults = new Properties();
-		defaults.setProperty("PlayerWatcher.ContainerLogger", "console");
-		defaults.setProperty("PlayerWatcher.ContainerLogger.File", "containerlogger.log");
-		defaults.setProperty("PlayerWatcher.ContainerLogger.FileFailsToConsole", "1");
+		defaults.setProperty("PlayerWatcher.ItemLogger", "console");
+		defaults.setProperty("PlayerWatcher.ItemLogger.File", "btwmods.playerwatcher.itemlogger.log");
+		defaults.setProperty("PlayerWatcher.ItemLogger.FileFailsToConsole", "1");
 		return defaults;
 	}
 	
@@ -37,17 +37,17 @@ public class PlayerWatcher extends BTWMod {
 		 *             ITEM LOGGER
 		 * =================================== */
 		
-		String loggerName = ModProperties.Get("PlayerWatcher.ContainerLogger").toLowerCase();
+		String loggerName = ModProperties.Get("PlayerWatcher.ItemLogger").toLowerCase();
 		
 		if (loggerName == "file") {
-			String file = ModProperties.Get("PlayerWatcher.ContainerLogger.File").toLowerCase();
-			boolean failToConsole = ModProperties.Get("PlayerWatcher.ContainerLogger.FileFailsToConsole") == "1";
+			String file = ModProperties.Get("PlayerWatcher.ItemLogger.File").toLowerCase();
+			boolean failToConsole = ModProperties.Get("PlayerWatcher.ItemLogger.FileFailsToConsole") == "1";
 			
 			try {
 				items = new FileItemLogger(new File(file));
 				
 			} catch (IOException e) {
-				MinecraftServer.logger.warning("BTWMod failed to open 'PlayerWatcher.ContainerLogger.File' for writing." + (failToConsole ? " Logging to console instead." : ""));
+				MinecraftServer.logger.warning("BTWMod failed to open 'PlayerWatcher.ItemLogger.File' for writing." + (failToConsole ? " Logging to console instead." : ""));
 				items = failToConsole ? new ConsoleItemLogger() : new NullItemLogger();
 			}
 		}
